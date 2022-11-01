@@ -4,15 +4,23 @@
       <!-- Item 삭제 시 삭제 버튼을 클릭한 index의 item만 삭제하기 위해 수정 -->
       <li
         v-for="(todoItem, index) in todoItems"
-        v-bind:key="todoItem"
+        v-bind:key="todoItem.item"
         class="shadow"
       >
+        <i
+          class="fas fa-check checkBtn"
+          v-bind:class="{ checkBtnCompleted: todoItem.completed }"
+          v-on:click="toggleComplete(todoItem, index)"
+        ></i>
         <!-- <li v-for="todoItem in todoItems" v-bind:key="todoItem" class="shadow"> -->
-        {{ todoItem }}
+        <!-- 객체에서 원하는 item만 가지고 와서 적용 -->
+        <span v-bind:class="{ textCompleted: todoItem.completed }">
+          {{ todoItem.item }}
+        </span>
         <!-- v-for에서 가져온 파라미터를 removeTodo로 넘김 -->
-        <span class="removeBtn" v-on:click="removeTodo(todoItem, index)"
-          ><i class="fas fa-trash-alt"></i
-        ></span>
+        <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
+          <i class="fas fa-trash-alt"></i>
+        </span>
         <!-- <button v-on:click="removeTodo"></button> -->
       </li>
     </ul>
@@ -32,14 +40,26 @@ export default {
       // localStorage에 저장할 때 key, value를 동일하게 저장했음
       localStorage.removeItem(todoItem);
       this.todoItems.splice(index, 1);
+    },
+    toggleComplete: function(todoItem, index) {
+      // console.log(todoItem);
+      todoItem.completed = !todoItem.completed;
+      // localStorage를 자동으로 updata를 할 수 없음 - 로컬 스토리지에 데이터 갱신
+      localStorage.removeItem(todoItem.item);
+      localStorage.setItme(todoItem.item, JSON.stringify(todoItem));
     }
   },
   created: function() {
     if (localStorage.length > 0) {
       for (let i = 0; i < localStorage.length; i++) {
         if (localStorage.key(i) !== "loglevel:webpack-dev-server") {
-          this.todoItems.push(localStorage.key(i));
-          console.log(localStorage.key(i));
+          console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
+          // localStorage.getItem(localStorage.key(i));
+          this.todoItems.push(
+            JSON.parse(localStorage.getItem(localStorage.key(i)))
+          );
+          // this.todoItems.push(localStorage.key(i));
+          // console.log(localStorage.key(i));
         }
       }
     }
@@ -48,7 +68,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 ul {
   list-style-type: none;
   padding-left: 0px;
@@ -69,11 +89,12 @@ li {
   line-height: 45px;
   color: #62acde;
   margin-right: 5px;
+  cursor: pointer;
 }
-.checkBtnComplated {
+.checkBtnCompleted {
   color: #b3adad;
 }
-.textComplated {
+.textCompleted {
   text-decoration: line-through;
   color: #b3adad;
 }
