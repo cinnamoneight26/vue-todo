@@ -1,9 +1,16 @@
 <template>
   <div>
     <ul>
-      <li v-for="todoItem in todoItems" v-bind:key="todoItem" class="shadow">
+      <!-- Item 삭제 시 삭제 버튼을 클릭한 index의 item만 삭제하기 위해 수정 -->
+      <li
+        v-for="(todoItem, index) in todoItems"
+        v-bind:key="todoItem"
+        class="shadow"
+      >
+        <!-- <li v-for="todoItem in todoItems" v-bind:key="todoItem" class="shadow"> -->
         {{ todoItem }}
-        <span class="removeBtn" v-on:click="removeTodo"
+        <!-- v-for에서 가져온 파라미터를 removeTodo로 넘김 -->
+        <span class="removeBtn" v-on:click="removeTodo(todoItem, index)"
           ><i class="fas fa-trash-alt"></i
         ></span>
         <!-- <button v-on:click="removeTodo"></button> -->
@@ -20,7 +27,12 @@ export default {
     };
   },
   methods: {
-    removeTodo: function() {}
+    removeTodo: function(todoItem, index) {
+      console.log(todoItem, index);
+      // localStorage에 저장할 때 key, value를 동일하게 저장했음
+      localStorage.removeItem(todoItem);
+      this.todoItems.splice(index, 1);
+    }
   },
   created: function() {
     if (localStorage.length > 0) {
@@ -68,5 +80,6 @@ li {
 .removeBtn {
   margin-left: auto;
   color: #de4343;
+  cursor: pointer;
 }
 </style>
