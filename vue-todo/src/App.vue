@@ -14,9 +14,8 @@ import TodoList from "./conponents/TodoList.vue";
 import TodoFooter from "./conponents/TodoFooter.vue";
 
 export default {
-  new: "#app",
   components: {
-    // 컴포넌트 태금ㅇ : 컴포넌트 내용
+    // 컴포넌트 태r그 : 컴포넌트 내용
     TodoHeader: TodoHeader,
     TodoInput: TodoInput,
     TodoList: TodoList,
