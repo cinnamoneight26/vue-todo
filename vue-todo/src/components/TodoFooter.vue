@@ -7,8 +7,8 @@
 <script>
 export default {
   methods: {
-    clearTodo: function() {
-      localStorage.clear();
+    clearTodo: function () {
+      this.$emit('clearAll');
     }
   }
 };
@@ -23,6 +23,7 @@ export default {
   border-radius: 5px;
   margin: 0 auto;
 }
+
 .clearAllBtn {
   color: #e20303;
   display: block;
