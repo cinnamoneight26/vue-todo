@@ -11,7 +11,7 @@
           {{ todoItem.item }}
         </span>
         <!-- v-for에서 가져온 파라미터를 removeTodo로 넘김 -->
-        <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
+        <span class="removeBtn" v-on:click="removeItem(todoItem, index)">
           <i class="fas fa-trash-alt"></i>
         </span>
         <!-- <button v-on:click="removeTodo"></button> -->
@@ -26,11 +26,8 @@ export default {
     'propsdata'
   ],
   methods: {
-    removeTodo: function (todoItem, index) {
-      console.log(todoItem, index);
-      // localStorage에 저장할 때 key, value를 동일하게 저장했음
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1);
+    removeItem: function (todoItem, index) {
+      this.$emit('removeItem', todoItem, index);
     },
     toggleComplete: function (todoItem, index) {
       // console.log(todoItem);

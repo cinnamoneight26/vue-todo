@@ -10,22 +10,20 @@
 
 <script>
 export default {
-  data: function() {
+  data: function () {
     return {
       newTodoItem: ""
     };
   },
   methods: {
-    addTodo: function() {
+    addTodo: function () {
       if (this.newTodoItem !== "") {
-        console.log(this.newTodoItem);
-        let obj = { completed: false, item: this.newTodoItem };
-        // 저장하는 로직
-        localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+        // this.$emit('이벤트 이름', '인자1', 인자2, ...);
+        this.$emit('addTodoItem', this.newTodoItem);
         this.clearInput();
       }
     },
-    clearInput: function() {
+    clearInput: function () {
       this.newTodoItem = "";
     }
   }
@@ -36,16 +34,19 @@ export default {
 input:focus {
   outline: none;
 }
+
 .inputBox {
   background: #fff;
   height: 50px;
   line-height: 50px;
   border-radius: 5px;
 }
+
 .inputBox input {
   border-style: none;
   font-size: 0.9rem;
 }
+
 .addContainer {
   float: right;
   background: linear-gradient(to right, #6478fb, #8764fb);
@@ -53,6 +54,7 @@ input:focus {
   width: 3rem;
   border-radius: 0 5px 5px 0;
 }
+
 .addBtn {
   color: #fff;
   vertical-align: middle;
