@@ -8,7 +8,7 @@
 
 
     <Modal v-if="showModal" @close="showModal = false">
-      <h3 slot="header">custom header</h3>
+      <h3 slot="header">경고!</h3>
     </Modal>
 
 
@@ -32,7 +32,7 @@ export default {
         this.$emit('addTodoItem', this.newTodoItem);
         this.clearInput();
       } else {
-
+        this.showModal = !this.showModal;
       }
     },
     clearInput: function () {
